@@ -21,7 +21,6 @@ syn region done            start=/\*\*DONE/ end=/\*\*/
 syn region inprogress      start=/\*\*INPROGRESS/ end=/\*\*/
 syn region mattnotes       start=/\*\*notes/ end=/\*\*/
 syn region majorpoint      start=/==>/ end=/<==/me=s-3 contains=ALL
-syn region comment         start=/\v#|\>/ end=/\n/
 syn match  minorpoint      /--/
 syn match  minipoint       /---/
 syn match  notesbullet      /·/
@@ -47,12 +46,18 @@ hi dash3 ctermfg=248
 
 hi notesremember ctermfg=197 ctermbg=53 cterm=boldunderlinereverse
 
-syn match notesUC						/\v([A-Z]){2,} /
-syn match notesPerlModule   /\v([a-z]+::)/
-syn match notesCommentBlock /\v^#{80}/
-syn match notesCommentTitle /\v^#\s[A-Z].+/
-syn match notesFilename     /\v[~/\.][A-Za-z0-9_\-/.]+/
-syn match notesNumber				/[0-9]/
+syn match notesComment 	 			 		 /\v^\s*\zs#.*\ze/ contains=notesCommentArendeID,notesCommentArendeBeskr
+"syn match notesCommentTitle 	 		 /\v^#\s[A-Z].+/
+syn match notesCommentArendeID 		 /\v^#\s+\zs[0-9]+\ze/ contained
+"syn match notesNumber				   /[0-9]/
+syn match notesPerlModule   	 	  /\v([a-z]+::)/
+syn match notesShellCmd        	  /\v^(#\s+)?\$\s+\zs.+/
+syn match notesUC							 	  /\v([A-Z]){2,} /
+
+syn region String start=/\v["']/  skip=+\\"+  end=/\v["']/ contained
+syn match notesStringStartEnd     /['"`]/ contains=String
+hi notesStringStartEnd cterm=bold ctermfg=166
+
 
 
 if !exists("did_notes_syntax_inits")
@@ -102,8 +107,11 @@ if !exists("did_notes_syntax_inits")
 	hi notesUC 		 ctermfg=37  cterm=bold
   hi notesCommentBlock ctermfg=240 cterm=italic
   hi notesCommentTitle ctermfg=208 cterm=bolditalic
-	hi notesFilename     ctermfg=143
+  hi link notesComment Comment
 	hi link notesNumber Number
+	hi notesCommentArendeID cterm=bold ctermfg=197
+	hi notesShellCmd        ctermfg=112 cterm=bolditalic
 endif
 
+hi Normal ctermfg=252
 let b:current_syntax="notes"
