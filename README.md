@@ -1,4 +1,4 @@
-# todo.vim
+# notes.vim
 
 simple syntax highlighting for notes
 
