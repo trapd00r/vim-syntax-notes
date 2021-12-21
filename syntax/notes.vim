@@ -46,7 +46,10 @@ hi dash3 ctermfg=248
 
 hi notesremember ctermfg=197 ctermbg=53 cterm=boldunderlinereverse
 
-syn match notesComment 	 			 		 /\v^\s*\zs#.*\ze/ contains=notesCommentArendeID,notesCommentArendeBeskr
+syn match notesKlar /KLAR:/
+syn match notesFinnsIVersion /\v[|]\s*\zs(\d+.\d+.\d+.\d+)/
+
+syn match notesComment 	 			 		 /\v^\s*\zs#.*\ze/ contains=notesCommentArendeID,notesCommentArendeBeskr,notesKlar,notesFinnsIVersion
 "syn match notesCommentTitle 	 		 /\v^#\s[A-Z].+/
 syn match notesCommentArendeID 		 /\v^#\s+\zs[0-9]+\ze/ contained
 "syn match notesNumber				   /[0-9]/
@@ -58,6 +61,8 @@ syn region String start=/\v["']/  skip=+\\"+  end=/\v["']/ contained
 syn match notesStringStartEnd     /['"`]/ contains=String
 hi notesStringStartEnd cterm=bold ctermfg=166
 
+hi notesKlar ctermfg=070 cterm=bold
+hi notesFinnsIVersion ctermfg=220
 
 
 if !exists("did_notes_syntax_inits")
