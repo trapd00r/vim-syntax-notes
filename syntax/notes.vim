@@ -30,8 +30,8 @@ syn region notesmodified    start=/Modified:/ end=/$/
 
 " dim finished tasks
 " %3>l  = match after 3rd line
-syn match notesLevel1 /\v\s*·?\s*\zs.*\zeDONE/ contains=notesdone
-hi notesLevel1 ctermfg=238 cterm=italicbold
+"syn match notesLevel1 /\v\s*·?\s*\zs.*\zeDONE/ contains=notesdone
+"hi notesLevel1 ctermfg=238 cterm=italicbold
 
 syn match notesLevel2 /%3>l.*\zeNOTE/ contains=notesnote
 hi notesLevel2  cterm=bold
@@ -40,29 +40,27 @@ hi notesLevel2  cterm=bold
 sy region dash1 matchgroup=dash1 start=/\---/ end=/\v\n/ contains=dash2 keepend
 sy region dash2 matchgroup=dash2 start=/\---/ end=/\v\n/ contains=dash3 keepend
 sy region dash3 matchgroup=dash3 start=/\---/ end=/\v\n/ contains=dash1 contained keepend
+
+syn match notesKlar          /KLAR:/
+syn match notesversionnumber /\v[|]\s*\zs\d+[.]\d+[.]\d+([.]\d+)?/
+
+syn match notesComment 	 			 		 /\v^\s*\zs#.*\ze/ contains=notesCommentArendeID,notesCommentArendeBeskr,notesKlar,notesversionnumber
+syn match notesCommentArendeID 		 /\v^#\s+\zs[0-9]+\ze/ contained
+syn match notesPerlModule   	 	  /\v([a-z]+::)/
+syn match notesShellCmd        	  /\v^(#\s+)?\$\s+\zs.+/
+syn match notesUC							 	  /\v([A-Z]){2,} /
+
+syn region String                  start=/\v["']/  skip=+\\"+  end=/\v["']/ contained
+syn match  notesStringStartEnd     /['"`]/ contains=String
+
+hi notesKlar ctermfg=070 cterm=bold
+hi notesversionnumber ctermfg=220
+hi notesStringStartEnd cterm=bold ctermfg=166
 hi dash1 ctermfg=240
 hi dash2 ctermfg=244
 hi dash3 ctermfg=248
 
 hi notesremember ctermfg=197 ctermbg=53 cterm=boldunderlinereverse
-
-syn match notesKlar /KLAR:/
-syn match notesFinnsIVersion /\v[|]\s*\zs(\d+.\d+.\d+.\d+)/
-
-syn match notesComment 	 			 		 /\v^\s*\zs#.*\ze/ contains=notesCommentArendeID,notesCommentArendeBeskr,notesKlar,notesFinnsIVersion
-"syn match notesCommentTitle 	 		 /\v^#\s[A-Z].+/
-syn match notesCommentArendeID 		 /\v^#\s+\zs[0-9]+\ze/ contained
-"syn match notesNumber				   /[0-9]/
-syn match notesPerlModule   	 	  /\v([a-z]+::)/
-syn match notesShellCmd        	  /\v^(#\s+)?\$\s+\zs.+/
-syn match notesUC							 	  /\v([A-Z]){2,} /
-
-syn region String start=/\v["']/  skip=+\\"+  end=/\v["']/ contained
-syn match notesStringStartEnd     /['"`]/ contains=String
-hi notesStringStartEnd cterm=bold ctermfg=166
-
-hi notesKlar ctermfg=070 cterm=bold
-hi notesFinnsIVersion ctermfg=220
 
 
 if !exists("did_notes_syntax_inits")
@@ -108,12 +106,12 @@ if !exists("did_notes_syntax_inits")
 
   hi notesURL ctermfg=39 cterm=none
 
-  hi notesbullet ctermfg=160 cterm=bold
-	hi notesUC 		 ctermfg=37  cterm=bold
-  hi notesCommentBlock ctermfg=240 cterm=italic
-  hi notesCommentTitle ctermfg=208 cterm=bolditalic
-  hi link notesComment Comment
-	hi link notesNumber Number
+  hi notesbullet          ctermfg=160 cterm=bold
+	hi notesUC 		          ctermfg=37  cterm=bold
+  hi notesCommentBlock    ctermfg=240 cterm=italic
+  hi notesCommentTitle    ctermfg=208 cterm=bolditalic
+  hi link notesComment    Comment
+	hi link notesNumber     Number
 	hi notesCommentArendeID cterm=bold ctermfg=197
 	hi notesShellCmd        ctermfg=112 cterm=bolditalic
 endif
